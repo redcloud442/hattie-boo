@@ -18,13 +18,7 @@ export default function Home() {
           <p className="font-body text-sm font-bold uppercase tracking-[0.2em] text-lavender-deep">
             A Christening Celebration
           </p>
-          <h1 className="font-script my-3 text-5xl text-rose-deep">
-            You're Invited
-          </h1>
-          <p className="mx-auto max-w-sm text-ink-soft">
-            This is a private invitation site. Please open the personal link
-            shared with you to view your invitation.
-          </p>
+      
           <div className="mt-8 flex items-center justify-center gap-2 text-gold-deep">
             <SparkleIcon
               width={18}
@@ -38,12 +32,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Link
-        href="/admin"
-        className="mt-6 text-sm font-semibold text-ink-soft underline decoration-blush decoration-2 underline-offset-4 hover:text-rose-deep"
-      >
-        Host sign in
-      </Link>
+     
     </main>
   );
 }
