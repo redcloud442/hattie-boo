@@ -11,7 +11,7 @@ import { toDatetimeLocalValue } from "@/lib/format";
 import { getStats, isGodparent, listGuests } from "@/lib/guests";
 import { qrDataUrl } from "@/lib/qr";
 import { getSettings } from "@/lib/settings";
-import { godparentUrl } from "@/lib/site";
+import { godparentUrl, inviteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -26,13 +26,23 @@ export default async function AdminPage() {
     getSettings(),
   ]);
 
-  // Pre-generate QR PNGs for godparents (small guest lists → cheap).
-  const qrEntries = await Promise.all(
-    guests
-      .filter((g) => isGodparent(g.role))
-      .map(async (g) => [g.slug, await qrDataUrl(godparentUrl(g))] as const),
-  );
-  const qrMap = Object.fromEntries(qrEntries);
+  // Pre-generate QR PNGs (small guest lists → cheap):
+  //  - invite QR for every guest (encodes the general /invite link)
+  //  - godparent QR for godparents only (encodes the exclusive /christening link)
+  const [inviteEntries, godparentEntries] = await Promise.all([
+    Promise.all(
+      guests.map(
+        async (g) => [g.slug, await qrDataUrl(inviteUrl(g.slug))] as const,
+      ),
+    ),
+    Promise.all(
+      guests
+        .filter((g) => isGodparent(g.role))
+        .map(async (g) => [g.slug, await qrDataUrl(godparentUrl(g))] as const),
+    ),
+  ]);
+  const inviteQrMap = Object.fromEntries(inviteEntries);
+  const qrMap = Object.fromEntries(godparentEntries);
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6">
@@ -76,7 +86,7 @@ export default async function AdminPage() {
             Export CSV
           </Link>
         </div>
-        <GuestTable guests={guests} qrMap={qrMap} />
+        <GuestTable guests={guests} qrMap={qrMap} inviteQrMap={inviteQrMap} />
       </section>
 
       <section>

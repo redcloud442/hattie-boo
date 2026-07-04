@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { RsvpForm } from "@/components/RsvpForm";
-import { HeartIcon } from "@/components/icons";
 
 type Props = {
   slug: string;
@@ -10,7 +9,6 @@ type Props = {
   role: string;
   name: string;
   initialStatus: "pending" | "attending" | "declined";
-  initialCompanions: number;
   initialMessage: string | null;
   alreadyResponded: boolean;
 };
@@ -47,7 +45,7 @@ export function RsvpModal(props: Props) {
         className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-rose-deep px-8 py-3 text-lg font-bold text-white shadow-[0_14px_30px_-12px_rgba(214,31,117,0.8)] transition-transform hover:scale-[1.03] active:scale-[0.97]"
       >
       
-        {responded ? "View / update my RSVP" : "RSVP now"}
+        {responded ? "View / update my RSVP" : "Click Here To Confirm"}
       </button>
 
       {open && (

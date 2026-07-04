@@ -1,5 +1,74 @@
 // Hand-illustrated invitation decor: bunting, pastel rainbow arches, hanging
-// star-clouds and scattered stars. All ornamental → aria-hidden.
+// star-clouds, scattered stars + coquette ribbon bows and pearls.
+// All ornamental → aria-hidden.
+
+// A cute satin ribbon bow — the signature coquette motif.
+export function Bow({
+  className = "",
+  color = "var(--color-ribbon)",
+  knot = "var(--color-ribbon-deep)",
+}: {
+  className?: string;
+  color?: string;
+  knot?: string;
+}) {
+  return (
+    <svg viewBox="0 0 128 100" className={className} fill="none" aria-hidden>
+      {/* tails */}
+      <path d="M58 56 C50 76 44 86 40 98 L58 88 L64 60 Z" fill={color} />
+      <path d="M70 56 C78 76 84 86 88 98 L70 88 L64 60 Z" fill={color} />
+      {/* left loop */}
+      <path
+        d="M62 44 C36 22 6 30 12 52 C6 74 42 68 62 54 Z"
+        fill={color}
+        stroke={knot}
+        strokeWidth="1.5"
+      />
+      {/* right loop */}
+      <path
+        d="M66 44 C92 22 122 30 116 52 C122 74 86 68 66 54 Z"
+        fill={color}
+        stroke={knot}
+        strokeWidth="1.5"
+      />
+      {/* loop highlights */}
+      <ellipse cx="34" cy="44" rx="10" ry="5" fill="#ffffff" opacity="0.4" />
+      <ellipse cx="94" cy="44" rx="10" ry="5" fill="#ffffff" opacity="0.4" />
+      {/* knot */}
+      <rect x="55" y="40" width="18" height="24" rx="8" fill={knot} />
+      <rect x="58.5" y="44" width="4" height="16" rx="2" fill="#ffffff" opacity="0.35" />
+    </svg>
+  );
+}
+
+// A short string of pearls with a little bow in the middle — a dainty divider.
+export function PearlDivider({ className = "" }: { className?: string }) {
+  const pearls = Array.from({ length: 5 });
+  const Pearl = () => (
+    <span
+      className="inline-block h-2.5 w-2.5 rounded-full"
+      style={{
+        background:
+          "radial-gradient(circle at 35% 30%, #fff 0 20%, var(--color-pearl) 45%, var(--color-ribbon) 100%)",
+        boxShadow: "0 1px 2px rgba(224,122,158,0.4)",
+      }}
+    />
+  );
+  return (
+    <div
+      aria-hidden
+      className={`flex items-center justify-center gap-1.5 ${className}`}
+    >
+      {pearls.map((_, i) => (
+        <Pearl key={`l-${i}`} />
+      ))}
+      <Bow className="mx-1 h-6 w-8" />
+      {pearls.map((_, i) => (
+        <Pearl key={`r-${i}`} />
+      ))}
+    </div>
+  );
+}
 
 const BAND_COLORS = [
   "var(--color-rose)",

@@ -41,7 +41,7 @@ export function SummaryCards({ stats }: { stats: GuestStats }) {
       <StatCard
         label="Attending"
         value={stats.attendingHeadcount}
-        hint={`${stats.attendingParties} responses + companions`}
+        hint="confirmed guests"
         accent="text-success"
       />
       <StatCard

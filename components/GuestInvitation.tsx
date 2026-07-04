@@ -3,15 +3,9 @@ import type { Guest } from "@/lib/guests";
 import { Confetti } from "@/components/Confetti";
 import { FairytaleBackground } from "@/components/FairytaleBackground";
 import { MapCard } from "@/components/MapCard";
-import { MusicToggle } from "@/components/MusicToggle";
 import { RsvpModal } from "@/components/RsvpModal";
-import { Bunting, HangingCloud, RainbowArch, StarField } from "@/components/decor";
-import {
-  ChurchIcon,
-  HeartIcon,
-  PartyIcon,
-  SparkleIcon,
-} from "@/components/icons";
+import { Bow, Bunting, HangingCloud, StarField } from "@/components/decor";
+import { ChurchIcon, PartyIcon, SparkleIcon } from "@/components/icons";
 import { getDateParts, roleLabel } from "@/lib/format";
 
 function DateRow({
@@ -60,7 +54,8 @@ function LocationCard({
   mapAddress: string;
 }) {
   return (
-    <div className="flex flex-col rounded-clay border-2 border-white bg-white/75 p-4 shadow-[0_16px_36px_-22px_rgba(214,31,117,0.4)] backdrop-blur">
+    <div className=" relative flex flex-col rounded-clay border-2 border-white bg-white/75 p-4 shadow-[0_16px_36px_-22px_rgba(214,31,117,0.4)] backdrop-blur">
+    
       <div className="text-center">
         <span className="mx-auto mb-1 flex h-9 w-9 items-center justify-center rounded-full bg-blush-soft text-rose-deep">
           {icon}
@@ -104,18 +99,18 @@ export function GuestInvitation({
       <FairytaleBackground />
       <StarField />
       <Confetti />
-      <MusicToggle />
-
+ 
       {/* ---------------- Hero ---------------- */}
       <section className="relative overflow-hidden rounded-clay-lg h-full border-2 border-white bg-gradient-to-b from-white/85 via-white/70 to-blush-soft/70 px-4 pb-9 pt-3 text-center shadow-[0_28px_64px_-32px_rgba(214,31,117,0.5)] sm:px-8">
         <Bunting className="mx-auto h-8 w-full max-w-md" />
+    
         <HangingCloud className="absolute -left-2 top-6 w-24 opacity-90" />
         <HangingCloud className="absolute -right-2 top-6 w-24 opacity-90" flip />
 
         <div className="relative">
           {isGodparent && (
             <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-gold px-3.5 py-1 text-xs font-bold text-ink shadow">
-            
+          
               For our beloved {roleLabel(guest.role)}
             </span>
           )}
@@ -126,10 +121,7 @@ export function GuestInvitation({
 
           {/* Rainbow-framed baby photo */}
           <div className="relative mx-auto mt-4 h-60 w-60 sm:h-60 sm:w-60">
-            <RainbowArch
-              className="absolute -top-6 left-1/2 -translate-x-1/2"
-              width={300}
-            />
+          
             <div className="absolute inset-0 overflow-hidden rounded-full border-[5px] border-white bg-gradient-to-br from-blush-soft to-lavender shadow-lg">
               {settings.heroImageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -149,6 +141,8 @@ export function GuestInvitation({
                 </div>
               )}
             </div>
+            {/* ribbon tied on the frame */}
+            <Bow className="absolute -top-8 left-1/2 z-10 w-24 -translate-x-1/2 drop-shadow-[0_4px_6px_rgba(224,122,158,0.5)]" />
           </div>
 
           <h1 className="font-script mt-4 text-5xl leading-none text-rose-deep sm:text-6xl">
@@ -162,9 +156,7 @@ export function GuestInvitation({
 
        
         </div>
-        {isGodparent ? (
         <section id="rsvp" className="mt-6 scroll-mt-4">
-        
           <p className="mx-auto mb-4 max-w-md text-center text-ink-soft">
             We would be so blessed to have you with us. Kindly let us know if you
             can make it.
@@ -176,82 +168,18 @@ export function GuestInvitation({
               role={guest.role}
               name={guest.name}
               initialStatus={guest.rsvpStatus}
-              initialCompanions={guest.companionCount}
               initialMessage={guest.guestMessage}
               alreadyResponded={Boolean(guest.respondedAt)}
             />
           </div>
         </section>
-      ) : (
-        <p className="mx-auto mt-5 max-w-md rounded-clay border-2 border-white bg-white/70 px-5 py-3.5 text-center text-sm text-ink-soft backdrop-blur">
-          Kindly confirm your attendance directly with the family. We can&rsquo;t
-          wait to celebrate with you!
-        </p>
-      )}
       </section>
 
-      {/* --------------- Greeting --------------- */}
-      <section className="mt-5 rounded-clay border-2 border-white bg-white/70 p-5 text-center backdrop-blur">
-        <HeartIcon
-          width={24}
-          height={24}
-          className="mx-auto mb-1.5"
-          style={{ fill: "var(--color-blush)", stroke: "var(--color-rose-deep)" }}
-        />
-        {isGodparent ? (
-          <div className="space-y-3 text-ink">
-            <p className="leading-relaxed">
-              Dear{" "}
-              <span className="font-script text-xl text-rose-deep">
-                {guest.name}
-              </span>
-              ,
-            </p>
-            <p className="leading-relaxed">
-              Thank you for celebrating this special day with Mommy, Daddy, and
-              me. Your love and prayers mean so much to our little family, and
-              we&rsquo;re so thankful to have you beside us as I take this first
-              step in my faith.
-            </p>
-         
-      
-            <p className="text-sm italic text-ink-soft">
-              P.S. I heard godparents give the best gifts!
-            </p>
-            <p className="leading-relaxed">Love,</p>
-            <p className="font-script text-4xl text-rose-deep">
-              {settings.babyName}
-            </p>
-          </div>
-        ) : (
-          <p className="leading-relaxed text-ink">
-            Dear{" "}
-            <span className="font-script text-xl text-rose-deep">
-              {guest.name}
-            </span>
-            , you&rsquo;re warmly invited to share in our joy as we celebrate{" "}
-            {settings.babyName}&rsquo;s christening.
-          </p>
-        )}
-        {/* {guest.personalMessage && (
-          <p className="mt-3 rounded-2xl bg-blush-soft px-4 py-2.5 text-sm italic text-ink-soft">
-            &ldquo;{guest.personalMessage}&rdquo;
-          </p>
-        )} */}
-        <footer className="mt-8 text-center">
-      
-        {/* <p className="mx-auto mt-3 max-w-md text-sm text-ink-soft">
-          {settings.thankYouNote}
-        </p> */}
-        {/* <p className="font-script mt-3 text-2xl text-rose-deep">
-          {settings.parentNames}
-        </p> */}
-        {/* <p className="mt-0.5 text-xs text-ink-soft">with love &amp; gratitude</p> */}
-      </footer>
-      </section>
+
+
 
       {/* --------------- Ceremony + Celebration (2-up) --------------- */}
-      <section id="details" className="mt-5 grid gap-4 sm:grid-cols-2">
+      <section id="details" className="mt-6 grid gap-4 sm:grid-cols-2">
         <LocationCard
           icon={<ChurchIcon width={20} height={20} />}
           eyebrow="The Ceremony"

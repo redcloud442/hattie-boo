@@ -2,31 +2,32 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { validateGodparent } from "@/lib/guests";
+import { isGodparent } from "@/lib/guests";
 import { RsvpStatus } from "@/generated/prisma/enums";
 
 export type RsvpState = { ok: boolean; error?: string };
 
-// SECURITY: Server Actions are reachable by direct POST, so we re-validate the
-// godparent access (role + slug + key) here and never trust the client.
+// SECURITY: Server Actions are reachable by direct POST, so we look the guest up
+// by their unguessable slug and — for godparents — re-check the access key.
 export async function submitRsvp(
   _prev: RsvpState,
   formData: FormData,
 ): Promise<RsvpState> {
   const slug = String(formData.get("slug") ?? "");
   const key = String(formData.get("key") ?? "");
-  const role = String(formData.get("role") ?? "");
   const attending = formData.get("attending") === "yes";
-  const rawCompanions = Number(formData.get("companionCount") ?? 0);
-  const companionCount = Number.isFinite(rawCompanions)
-    ? Math.max(0, Math.min(20, Math.trunc(rawCompanions)))
-    : 0;
   const message = String(formData.get("message") ?? "")
     .trim()
     .slice(0, 1000);
 
-  const guest = await validateGodparent(role, slug, key);
+  const guest = slug
+    ? await prisma.guest.findUnique({ where: { slug } })
+    : null;
   if (!guest) {
+    return { ok: false, error: "We couldn't verify your invitation link." };
+  }
+  // Godparent RSVPs additionally require the QR access key.
+  if (isGodparent(guest.role) && guest.accessKey !== key) {
     return { ok: false, error: "We couldn't verify your invitation link." };
   }
 
@@ -34,7 +35,7 @@ export async function submitRsvp(
     where: { id: guest.id },
     data: {
       rsvpStatus: attending ? RsvpStatus.attending : RsvpStatus.declined,
-      companionCount: attending ? companionCount : 0,
+      companionCount: 0,
       guestMessage: message || null,
       respondedAt: new Date(),
     },

@@ -4,7 +4,6 @@ import { useActionState, useState } from "react";
 import { submitRsvp, type RsvpState } from "@/app/christening/actions";
 import { Confetti } from "@/components/Confetti";
 import { CheckIcon, HeartIcon } from "@/components/icons";
-import { roleLabel } from "@/lib/format";
 
 type Props = {
   slug: string;
@@ -12,7 +11,6 @@ type Props = {
   role: string;
   name: string;
   initialStatus: "pending" | "attending" | "declined";
-  initialCompanions: number;
   initialMessage: string | null;
   alreadyResponded: boolean;
   onDone?: () => void;
@@ -50,7 +48,7 @@ export function RsvpForm(props: Props) {
         </h3>
         <p className="mx-auto mt-2 max-w-sm text-ink-soft">
           {status === "attending"
-            ? `Dear ${props.name}, your response as ${roleLabel(props.role)} is confirmed. Thank you for blessing our little angel.`
+            ? `Dear ${props.name}, Thank you for saying “yes”. I’m so blessed to have you in my life.`
             : `Dear ${props.name}, we'll miss you — but thank you for your love and prayers.`}
         </p>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
@@ -79,7 +77,6 @@ export function RsvpForm(props: Props) {
     <form action={action} className="clay p-6 sm:p-8">
       <input type="hidden" name="slug" value={props.slug} />
       <input type="hidden" name="key" value={props.accessKey} />
-      <input type="hidden" name="role" value={props.role} />
 
       <fieldset className="mb-5">
         <legend className="mb-2 font-display text-lg text-ink">
@@ -123,30 +120,6 @@ export function RsvpForm(props: Props) {
         </div>
       </fieldset>
 
-      {attending && (
-        <div className="mb-5 animate-rise">
-          <label
-            htmlFor="companionCount"
-            className="mb-1.5 block font-display text-lg text-ink"
-          >
-            How many companions?
-          </label>
-          <input
-            id="companionCount"
-            name="companionCount"
-            type="number"
-            inputMode="numeric"
-            min={0}
-            max={20}
-            defaultValue={props.initialCompanions}
-            className="clay-inset min-h-[48px] w-full rounded-2xl border-2 border-blush bg-white px-4 py-2 text-lg text-ink outline-none focus:border-rose-deep"
-          />
-          <p className="mt-1 text-sm text-ink-soft">
-            Not counting yourself — just the guests joining you.
-          </p>
-        </div>
-      )}
-
       <div className="mb-6">
         <label
           htmlFor="message"
@@ -179,7 +152,7 @@ export function RsvpForm(props: Props) {
         disabled={pending}
         className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-rose-deep px-6 py-3 text-lg font-bold text-white shadow-[0_14px_30px_-12px_rgba(214,31,117,0.8)] transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
       >
-        {pending ? "Sending…" : "Send my RSVP"}
+        {pending ? "Sending…" : "Confirm"}
         {!pending && <HeartIcon width={20} height={20} />}
       </button>
     </form>
