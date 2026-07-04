@@ -1,0 +1,64 @@
+// Christening invitation data model.
+// Prisma 7 `prisma-client` generator (ESM). URL is supplied via prisma.config.ts.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ninong
+  ninang
+  invitation_only
+}
+
+enum RsvpStatus {
+  pending
+  attending
+  declined
+}
+
+model Guest {
+  id              String     @id @default(cuid())
+  slug            String     @unique
+  name            String
+  role            Role
+  personalMessage String?
+  // Godparent QR access
+  accessKey       String // unguessable token for ?key= on /christening
+  qrGeneratedAt   DateTime?
+  qrScannedAt     DateTime?
+  accessSource    String? // 'qr' | 'link'
+  // Tracking
+  openedAt        DateTime?
+  // RSVP (godparents only)
+  rsvpStatus      RsvpStatus @default(pending)
+  companionCount  Int        @default(0)
+  guestMessage    String?
+  respondedAt     DateTime?
+  createdAt       DateTime   @default(now())
+
+  @@index([role])
+}
+
+// Single editable row of event details. Enforced singleton via fixed id = "singleton".
+model EventSettings {
+  id                 String   @id @default("singleton")
+  babyName           String
+  parentNames        String
+  christeningDateTime DateTime
+  churchName         String
+  churchAddress      String
+  churchMapUrl       String?
+  venueName          String
+  venueAddress       String
+  venueMapUrl        String?
+  dressCode          String?
+  heroImageUrl       String?
+  thankYouNote       String?
+  updatedAt          DateTime @updatedAt
+}

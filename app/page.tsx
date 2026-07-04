@@ -1,66 +1,49 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { Sparkles } from "@/components/Sparkles";
+import { HeartIcon, SparkleIcon } from "@/components/icons";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <main className="mx-auto flex min-h-dvh w-full max-w-xl flex-col items-center justify-center px-6 text-center">
+      <section className="relative w-full overflow-hidden rounded-clay-lg bg-gradient-to-b from-white/70 to-blush-soft/60 px-6 py-14 shadow-[0_24px_60px_-30px_rgba(214,31,117,0.45)]">
+        <Sparkles />
+        <div className="relative">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white text-rose-deep shadow ring-2 ring-blush">
+            <HeartIcon
+              width={32}
+              height={32}
+              style={{ fill: "var(--color-blush)", stroke: "var(--color-rose-deep)" }}
             />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+          <p className="font-body text-sm font-bold uppercase tracking-[0.2em] text-lavender-deep">
+            A Christening Celebration
+          </p>
+          <h1 className="font-script my-3 text-5xl text-rose-deep">
+            You're Invited
+          </h1>
+          <p className="mx-auto max-w-sm text-ink-soft">
+            This is a private invitation site. Please open the personal link
+            shared with you to view your invitation.
+          </p>
+          <div className="mt-8 flex items-center justify-center gap-2 text-gold-deep">
+            <SparkleIcon
+              width={18}
+              height={18}
+              style={{ fill: "var(--color-gold)", stroke: "var(--color-gold-deep)" }}
+            />
+            <span className="font-display text-sm font-semibold">
+              Made with love
+            </span>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <Link
+        href="/admin"
+        className="mt-6 text-sm font-semibold text-ink-soft underline decoration-blush decoration-2 underline-offset-4 hover:text-rose-deep"
+      >
+        Host sign in
+      </Link>
+    </main>
   );
 }
