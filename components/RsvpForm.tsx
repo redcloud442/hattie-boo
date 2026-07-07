@@ -48,8 +48,8 @@ export function RsvpForm(props: Props) {
         </h3>
         <p className="mx-auto mt-2 max-w-sm text-ink-soft">
           {status === "attending"
-            ? `Dear ${props.name}, Thank you for saying “yes”. I’m so blessed to have you in my life.`
-            : `Dear ${props.name}, we'll miss you — but thank you for your love and prayers.`}
+            ? `Thank you for saying “yes”. I’m so blessed to have you in my life.`
+            : `We'll miss you — but thank you for your love and prayers.`}
         </p>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
           <button
